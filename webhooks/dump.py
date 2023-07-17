@@ -1,0 +1,221 @@
+stoof = {
+    "kind": "AdmissionReview",
+    "request": {
+      "kind": {
+        "kind": "Pod",
+        "version": "v1",
+        "group": ""
+      },
+      "resource": {
+        "resource": "pods",
+        "version": "v1",
+        "group": ""
+      },
+      "uid": "d46adb12-935d-45bf-9247-f54a01e2ebca",
+      "object": {
+        "status": {
+          "phase": "Pending",
+          "qosClass": "BestEffort"
+        },
+        "kind": "Pod",
+        "spec": {
+          "dnsPolicy": "ClusterFirst",
+          "securityContext": {},
+          "serviceAccountName": "default",
+          "schedulerName": "default-scheduler",
+          "enableServiceLinks": True,
+          "serviceAccount": "default",
+          "priority": 0,
+          "terminationGracePeriodSeconds": 30,
+          "restartPolicy": "OnFailure",
+          "volumes": [
+            {
+              "name": "kube-api-access-z5hm7",
+              "projected": {
+                "sources": [
+                  {
+                    "serviceAccountToken": {
+                      "path": "token",
+                      "expirationSeconds": 3607
+                    }
+                  },
+                  {
+                    "configMap": {
+                      "items": [
+                        {
+                          "path": "ca.crt",
+                          "key": "ca.crt"
+                        }
+                      ],
+                      "name": "kube-root-ca.crt"
+                    }
+                  },
+                  {
+                    "downwardAPI": {
+                      "items": [
+                        {
+                          "path": "namespace",
+                          "fieldRef": {
+                            "fieldPath": "metadata.namespace",
+                            "apiVersion": "v1"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "defaultMode": 420
+              }
+            }
+          ],
+          "tolerations": [
+            {
+              "operator": "Exists",
+              "tolerationSeconds": 300,
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/not-ready"
+            },
+            {
+              "operator": "Exists",
+              "tolerationSeconds": 300,
+              "effect": "NoExecute",
+              "key": "node.kubernetes.io/unreachable"
+            }
+          ],
+          "containers": [
+            {
+              "terminationMessagePath": "/dev/termination-log",
+              "name": "test6a",
+              "image": "busybox:latest",
+              "volumeMounts": [
+                {
+                  "readOnly": True,
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-z5hm7"
+                }
+              ],
+              "terminationMessagePolicy": "File",
+              "command": [
+                "sleep",
+                "6000"
+              ],
+              "imagePullPolicy": "Always",
+              "resources": {}
+            },
+            {
+              "terminationMessagePath": "/dev/termination-log",
+              "name": "test6b",
+              "image": "nginx:latest",
+              "volumeMounts": [
+                {
+                  "readOnly": True,
+                  "mountPath": "/var/run/secrets/kubernetes.io/serviceaccount",
+                  "name": "kube-api-access-z5hm7"
+                }
+              ],
+              "terminationMessagePolicy": "File",
+              "imagePullPolicy": "Always",
+              "resources": {}
+            }
+          ],
+          "preemptionPolicy": "PreemptLowerPriority"
+        },
+        "apiVersion": "v1",
+        "metadata": {
+          "name": "test6-two-containers",
+          "labels": {
+            "app": "busybox"
+          },
+          "namespace": "busybox",
+          "managedFields": [
+            {
+              "fieldsV1": {
+                "f:metadata": {
+                  "f:annotations": {
+                    "f:kubectl.kubernetes.io/last-applied-configuration": {},
+                    ".": {}
+                  },
+                  "f:labels": {
+                    "f:app": {},
+                    ".": {}
+                  }
+                },
+                "f:spec": {
+                  "f:securityContext": {},
+                  "f:enableServiceLinks": {},
+                  "f:schedulerName": {},
+                  "f:containers": {
+                    "k:{\"name\":\"test6b\"}": {
+                      "f:image": {},
+                      "f:imagePullPolicy": {},
+                      "f:terminationMessagePath": {},
+                      "f:name": {},
+                      "f:resources": {},
+                      "f:terminationMessagePolicy": {},
+                      ".": {}
+                    },
+                    "k:{\"name\":\"test6a\"}": {
+                      "f:image": {},
+                      "f:imagePullPolicy": {},
+                      "f:command": {},
+                      "f:terminationMessagePath": {},
+                      "f:name": {},
+                      "f:resources": {},
+                      "f:terminationMessagePolicy": {},
+                      ".": {}
+                    }
+                  },
+                  "f:restartPolicy": {},
+                  "f:dnsPolicy": {},
+                  "f:terminationGracePeriodSeconds": {}
+                }
+              },
+              "apiVersion": "v1",
+              "manager": "kubectl-client-side-apply",
+              "time": "2023-07-14T22:38:04Z",
+              "operation": "Update",
+              "fieldsType": "FieldsV1"
+            }
+          ],
+          "creationTimestamp": "2023-07-14T22:38:04Z",
+          "annotations": {
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"v1\",\"kind\":\"Pod\",\"metadata\":{\"annotations\":{},\"labels\":{\"app\":\"busybox\"},\"name\":\"test6-two-containers\",\"namespace\":\"busybox\"},\"spec\":{\"containers\":[{\"command\":[\"sleep\",\"6000\"],\"image\":\"busybox:latest\",\"imagePullPolicy\":\"Always\",\"name\":\"test6a\"},{\"image\":\"nginx:latest\",\"imagePullPolicy\":\"Always\",\"name\":\"test6b\"}],\"restartPolicy\":\"OnFailure\"}}\n"
+          },
+          "uid": "2f9c7ba3-54ec-4980-b415-370ce00f492d"
+        }
+      },
+      "namespace": "busybox",
+      "requestKind": {
+        "kind": "Pod",
+        "version": "v1",
+        "group": ""
+      },
+      "requestResource": {
+        "resource": "pods",
+        "version": "v1",
+        "group": ""
+      },
+      "userInfo": {
+        "username": "kubernetes-admin",
+        "groups": [
+          "system:masters",
+          "system:authenticated"
+        ]
+      },
+      "oldObject": None,
+      "dryRun": False,
+      "operation": "CREATE",
+      "options": {
+        "kind": "CreateOptions",
+        "fieldManager": "kubectl-client-side-apply",
+        "apiVersion": "meta.k8s.io/v1",
+        "fieldValidation": "Strict"
+      },
+      "name": "test6-two-containers"
+    },
+    "apiVersion": "admission.k8s.io/v1"
+  }
+
+x = stoof["request"]["object"]["metadata"].get("namespace")
+
+print(x)

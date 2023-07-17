@@ -1,0 +1,225 @@
+# jenkins-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jenkins-deployment
+  labels:
+    app: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+    spec:
+      # volumes:
+      #   - name: jenkinsmnt
+      #     persistentVolumeClaim:
+      #       claimName: jenkinsclaim
+      containers:
+        - name: jenkins
+          image: densell321/jenkins:firsttry
+          ports:
+          - containerPort: 8080
+          # volumeMounts:
+          # - name: jenkinsmnt
+          #   mountPath: /usr/bin
+
+---
+
+# artifactory-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: artifactory-deployment
+  labels:
+    app: artifactory
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: artifactory
+  template:
+    metadata:
+      labels:
+        app: artifactory
+    spec:
+      containers:
+      - name: artifactory
+        image: densell321/artifactory:firsttry-art
+        ports:
+        - containerPort: 8081
+
+# ---
+
+# # artifactory-service.yaml
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: artifactory-service
+# spec:
+#   type: NodePort
+#   selector:
+#     app.kubernetes.io/name: artifactory
+#   ports:
+#       # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+#     - name: bruh-1
+#       protocol: TCP
+#       port: 8081
+#       targetPort: 8081
+#       # Optional field
+#       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+#       nodePort: 30008
+#       # nodePortAddresses: 10.106.194.15
+#     - name: bruh-2
+#       protocol: TCP
+#       port: 8082
+#       targetPort: 8082
+#       # Optional field
+#       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+#       nodePort: 30009
+#       # nodePortAddresses: 10.106.194.15
+
+# ---
+
+# # jenkins-service.yaml
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: jenkins-service
+# spec:
+#   type: NodePort
+#   selector:
+#     app.kubernetes.io/name: jenkins
+#   ports:
+#       # By default and for convenience, the `targetPort` is set to the same value as the `port` field.
+#     - name: bruh-2
+#       protocol: TCP
+#       port: 8080
+#       targetPort: 8080
+#       # Optional field
+#       # By default and for convenience, the Kubernetes control plane will allocate a port from a range (default: 30000-32767)
+#       nodePort: 30007
+#       # nodePortAddresses: 10.106.194.15
+
+# jenkins-endpoint.yaml
+
+# apiVersion: v1
+# kind: Endpoints
+# metadata:
+#   name: jenkins-endpoint
+# subsets:
+# - addresses:
+#   - ip: 10.106.194.15
+#   ports:
+#     - port: 8080
+
+# artifactory-endpoint.yaml
+
+# apiVersion: v1
+# kind: Endpoints
+# metadata:
+#   name: artifactory-endpoint
+# subsets:
+# - addresses:
+#   - ip: 10.106.194.16
+#   ports:
+#     - port: 8081
+#     - port: 8082
+
+# Persistant Volumes
+
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: jenkins-mnt
+# spec:
+#   capacity:
+#     storage: 15Gi
+#   volumeMode: Filesystem
+#   accessModes:
+#   - ReadWriteMany
+#   persistentVolumeReclaimPolicy: Delete
+#   storageClassName: local-storage
+#   local:
+#     path: /Users/densell321/code/k8_stuff/jenkins_stuff
+#   nodeAffinity:
+#     required:
+#       nodeSelectorTerms:
+#       - matchExpressions:
+#         - key: kubernetes.io/hostname
+#           operator: In
+#           values:
+#           - example-node
+
+# ---
+
+# apiVersion: v1
+# kind: PersistentVolume
+# metadata:
+#   name: jenkinsmnt
+# spec:
+#   capacity:
+#     storage: 3Gi
+#   accessModes:
+#     - ReadWriteMany
+#   hostPath:
+#     path: /tmp/data
+#   persistentVolumeReclaimPolicy: Retain
+
+# ---
+
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: jenkinsclaim
+# spec:
+#   accessModes:
+#     - ReadWriteMany
+#   resources:
+#     requests:
+#       storage: 3Gi
+#   storageClassName: ""
+
+# ---
+
+# apiVersion: storage.k8s.io/v1
+# kind: StorageClass
+# metadata:
+#   name: local-storage
+# provisioner: kubernetes.io/no-provisioner
+# volumeBindingMode: WaitForFirstConsumer
+
+# apiVersion: storage.k8s.io/v1
+# kind: StorageClass
+# metadata:
+#   name: jenkinsmnt
+# provisioner: docker.io/hostpath
+# # parameters:
+# #   type: gp2
+# reclaimPolicy: Retain
+# allowVolumeExpansion: true
+# mountOptions:
+#   - debug
+# volumeBindingMode: Immediate
+
+      # - image: densell321/jenkins:firsttry
+      #   name: jenkins
+      #   ports:
+      #   - containerPort: 8080
+      #   volumeMounts:
+      #   - mountPath: /home/newuser  # in the container filesystem
+      #     name: jenkins-mnt
+      #   securityContext:
+      #     allowPrivilegeEscalation: true
+      # volumes:
+      # - name: jenkins-mnt
+      #   hostPath:
+      #     path: /Users/densell321/code/k8_stuff/jenkins_stuff  # directory location on host

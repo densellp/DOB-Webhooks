@@ -1,0 +1,57 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+    <title>ValueError: View function did not return a response // Werkzeug Debugger</title>
+    <link rel="stylesheet" href="?__debugger__=yes&amp;cmd=resource&amp;f=style.css" type="text/css">
+    <!-- We need to make sure this has a favicon so that the debugger does not by
+         accident trigger a request to /favicon.ico which might change the application
+         state. -->
+    <link rel="shortcut icon" href="?__debugger__=yes&amp;cmd=resource&amp;f=console.png">
+    <script type="text/javascript" src="?__debugger__=yes&amp;cmd=resource&amp;f=jquery.js"></script>
+    <script type="text/javascript" src="?__debugger__=yes&amp;cmd=resource&amp;f=debugger.js"></script>
+    <script type="text/javascript">
+      var TRACEBACK = 281473489152400,
+          CONSOLE_MODE = false,
+          EVALEX = true,
+          SECRET = "GuLvdxzB8tl9ya5Ax9HX";
+    </script>
+  </head>
+  <body>
+    <div class="debugger">
+      <h1>ValueError</h1>
+      <div class="detail">
+        <p class="errormsg">ValueError: View function did not return a response</p>
+      </div>
+      <h2 class="traceback">Traceback <em>(most recent call last)</em></h2>
+      <div class="traceback">
+
+        <ul>
+          <li>
+            <div class="frame" id="frame-281473489153104">
+              <h4>File <cite class="filename">"/usr/lib/python2.7/dist-packages/flask/app.py"</cite>,
+                line <em class="line">1836</em>,
+                in <code class="function">__call__</code></h4>
+              <pre>return self.wsgi_app(environ, start_response)</pre>
+            </div>
+          </li>
+          <li>
+            <div class="frame" id="frame-281473489153232">
+              <h4>File <cite class="filename">"/usr/lib/python2.7/dist-packages/flask/app.py"</cite>,
+                line <em class="line">1820</em>,
+                in <code class="function">wsgi_app</code></h4>
+              <pre>response = self.make_response(self.handle_exception(e))</pre>
+            </div>
+          </li>
+          <li>
+            <div class="frame" id="frame-281473489153360">
+              <h4>File <cite class="filename">"/usr/lib/python2.7/dist-packages/flask/app.py"</cite>,
+                line <em class="line">1403"</em>
+              </h4>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

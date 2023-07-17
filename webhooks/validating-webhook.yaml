@@ -1,0 +1,22 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: warden-validating-webhook
+  namespace: validation
+webhooks:
+  - name: warden.validation.svc
+    failurePolicy: Fail
+    sideEffects: None
+    # admissionReviewVersions: ["v1","v1beta1"]
+    admissionReviewVersions: ["v1"]
+    rules:
+    - operations: ["CREATE"]
+      apiGroups: ["apps", ""]
+      apiVersions: ["v1"]
+      resources: ["pods"]
+    clientConfig:
+      service:
+        name: warden
+        namespace: validation
+        path: /validate/
+      caBundle: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURHekNDQWdPZ0F3SUJBZ0lSQUxXSXdwWVNCZ1NrbkpjUjF5ZmJ2d2d3RFFZSktvWklodmNOQVFFTEJRQXcKSnpFbE1DTUdBMVVFQXhNY2RtRnNhV1JoZEdsdmJpNXpkbU11WTJ4MWMzUmxjaTVzYjJOaGJEQWVGdzB5TXpBMwpNVFF4TnpNek1qUmFGdzB5TXpFd01USXhOek16TWpSYU1DY3hKVEFqQmdOVkJBTVRISFpoYkdsa1lYUnBiMjR1CmMzWmpMbU5zZFhOMFpYSXViRzlqWVd3d2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUIKQVFEZkdOcTNaaHNSam5zd3hkLzR3YzRSa0VoYkNzUmNDZnFhMTdPREtHVmJlYm42ZlJrVmxBRFI3bWZHMGFlOQp1VFNnY2NuMk5pcGlaTDQxeFZmYnBiVlB6TVUzbldiOEwrZTRvQ2tsUUI1N3NmTUdZNDhQd0l2RjU3QXhTRGtYClZyZjMzQVlHd2VPcjFxWUlCLzl5VlNCUWcyT0FkZzNsemdjd1dzQnBMRWpFNHI2d3NlT3pkcHc5S3hQUEZ0ZGQKR3lTWWcwV3JzOVFGWUd4K2Q5bUNuQXVhV3FqdEhjcFZwdG5HZ3lEdEdDeEdGRHhCdWE2WDdKOUlMVllCOVgxLwpoU3F4QVZUY3hnTGppc3pKR1FRenROK0ZJQXozMURVcjVLTFNkOGtwRHpGbXZyYlhpbTFwK0IrZmpMblJwdGVMClVybGNzSzRsWk0vU1M4Q1B6bHpXRUh4SkFnTUJBQUdqUWpCQU1BNEdBMVVkRHdFQi93UUVBd0lDcERBUEJnTlYKSFJNQkFmOEVCVEFEQVFIL01CMEdBMVVkRGdRV0JCVFloUzVIanJSZTJIRXE5Qkg0dWZvNVBQR0tFekFOQmdrcQpoa2lHOXcwQkFRc0ZBQU9DQVFFQUcwTUpNTEV4a3BuNElwcDFEZjF6QTlsWURPdUt6NVc2MW81QUl4cVpUYVpXCjZlSmVwRkdadVRPcW0xQ2hzMzZPT280dXh5T3FOMHhHS1pUSzRKN0dsS3F2MzZWUTZlMHVpeU9Bc0hUVDJuVGEKbHpsdlFLQUQ1YmxCYitCcUxyUXhkcFdwempLenliZ1BWSjVkd2IvZHZVQUxieTJWL0lxbmxQRnZIcUdOUlhMcwpGN2VQWmpvdytNZnVMTnladFA2a3RTMjVIdjJHR0NWL1FHWS9DZG9JSzlDOFBqbDBmcHVvblB1NUJUT2wreFJBCi9oMDJ1TmJZZHB0Z05udzZxMGtoNHY0RmhXVmlmRVRwWG05dEhscDQ3NWszWERkaHAxd3VJaEhseG9BNkE1MkYKR1BsWHBZTVZOOThiazJYYTE4dm5Zb2NMRGN0VzFqa2N6Vkk2L25rKzRBPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
